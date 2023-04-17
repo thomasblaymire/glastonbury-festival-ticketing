@@ -1,38 +1,69 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+<h1 >
+  Glastonbury Ticket Registration
+  <br>
+</h1>
 
-## Getting Started
+## Problem
+Every year Glastonbury Festival sells out in a matter of minutes. This is a problem for many people who are unable to get tickets. The current system requires you to register online and then when tickets go on sale you join a massive queue to buy them. Often you get through to a multi-stage form and then due to the sheer amount of traffic the website crashes and you lose your place in the queue causing frustration for you as a customer and negative PR for the festival organizers. It's also not fair for people who get tickets year after year just because of sheer luck.
 
-First, run the development server:
+## Solution 
+A new fair ticket system will allow people to pre-register and add up to 5 members to their account for family/friends who they want to take with them. The tickets will then be released from the pool on release day. Customers who are selected will receive a private email invite to claim their tickets within 48 hours before they are released back into the pool. 
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-```
+I will also be implementing additional features such as VIP/Artist tickets along with year-on-year tracking to keep track of who has attended before. 
+  
+## Features (WIP)
+- Register, Login, Logout
+- Ticket Registration (5 additional tickets per account)
+- Ticket Claiming via Email Link
+- Virtual Ticket (QR Code)
+- Success/Error Pages
+- Payment Integration (Stripe)
+- Support Pages
+- Admin Dashboard (Claims) 
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## Live URL
 
-You can start editing the page by modifying `pages/index.tsx`. The page auto-updates as you edit the file.
+<strong>TBC</strong>
 
-[API routes](https://nextjs.org/docs/api-routes/introduction) can be accessed on [http://localhost:3000/api/hello](http://localhost:3000/api/hello). This endpoint can be edited in `pages/api/hello.ts`.
+## Screenshot
 
-The `pages/api` directory is mapped to `/api/*`. Files in this directory are treated as [API routes](https://nextjs.org/docs/api-routes/introduction) instead of React pages.
+TBC
 
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
 
-## Learn More
+## Tech Stack 
 
-To learn more about Next.js, take a look at the following resources:
+- NextJS 13
+- Prisma
+- React Query
+- Hooks
+- React Testing Library
+- Chakra UI
+- React Icons
+- PostgreSQL (Raleway)
+- Nodemailer
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## Infrastructure / Production
+- Vercel (NextJS)
+- Render (NodeJS API)
+- Raleway (PostgreSQL)
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
 
-## Deploy on Vercel
+## How To Use
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+The most simple way to run this application is by using npm or yarn. Simply clone using GitHub then run the following commands:
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+
+##### Go into relevant directory:
+`$ cd glastonbury-festival-ticketing`
+
+##### Install dependencies
+`$ npm install`
+
+##### Run the service
+`$ npm run dev`
+
+# Build the web app
+`$ npm run build`
+
+Please check out the package.json files for more information on additional commands.
+
