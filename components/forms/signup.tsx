@@ -1,17 +1,12 @@
 "use client";
 
 import { useForm } from "react-hook-form";
-import { useMutation } from "@tanstack/react-query";
-import { useRouter } from "next/navigation";
 import {
   Flex,
   Box,
   FormControl,
   FormLabel,
   Input,
-  InputGroup,
-  HStack,
-  InputRightElement,
   Stack,
   Button,
   Heading,
@@ -20,12 +15,14 @@ import {
   Link,
 } from "@chakra-ui/react";
 import { useState } from "react";
-// import { ViewIcon, ViewOffIcon } from '@chakra-ui/icons';
+import { useSignup } from "@/hooks/useSignup";
+import { getSignupFormFields } from "./data";
 
 export function SignupForm() {
   const [showPassword, setShowPassword] = useState(false);
-
-  const router = useRouter();
+  const [showEmailConfirmed, setShowEmailConfirmed] = useState(false);
+  const signUpMutation = useSignup();
+  const formControls = getSignupFormFields(showPassword);
 
   const {
     register,
@@ -33,27 +30,10 @@ export function SignupForm() {
     formState: { errors },
   } = useForm();
 
-  const signUpMutation = useMutation(async (data) => {
-    const response = await fetch("/api/auth/signup", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-
-      body: JSON.stringify(data),
-    });
-
-    if (!response.ok) {
-      throw new Error("Error signing up");
-    }
-
-    return response.json();
-  });
-
   const onSubmit = async (data: any) => {
     try {
       await signUpMutation.mutateAsync(data);
-      router.push("/"); // Redirect to the desired page after successful signup
+      setShowEmailConfirmed(true);
     } catch (error) {
       console.error("Error:", error);
     }
@@ -66,7 +46,7 @@ export function SignupForm() {
       justify={"center"}
       bg={useColorModeValue("gray.50", "gray.800")}
     >
-      <Stack spacing={8} mx={"auto"} maxW={"lg"} py={12} px={6}>
+      <Stack spacing={8} mx={"auto"} py={12} px={6} width="35%">
         <Stack align={"center"}>
           <Heading fontSize={"4xl"} textAlign={"center"}>
             Sign up
@@ -78,59 +58,54 @@ export function SignupForm() {
           boxShadow={"lg"}
           p={8}
         >
-          <form onSubmit={handleSubmit(onSubmit)}>
-            <Stack spacing={4}>
-              <FormControl id="firstName" isRequired>
-                <FormLabel>First Name</FormLabel>
-                <Input
-                  {...register("firstName", { required: true })}
-                  type="text"
-                />
-              </FormControl>
-
-              <FormControl id="lastName" isRequired>
-                <FormLabel>Last Name</FormLabel>
-                <Input
-                  {...register("lastName", { required: true })}
-                  type="text"
-                />
-              </FormControl>
-
-              <FormControl id="email" isRequired>
-                <FormLabel>Email address</FormLabel>
-                <Input
-                  {...register("email", { required: true })}
-                  type="email"
-                />
-              </FormControl>
-
-              <Input
-                {...register("password", { required: true })}
-                type={showPassword ? "text" : "password"}
-              />
-
-              <Button type="submit" /*...*/>Sign up</Button>
-            </Stack>
-          </form>
+          {!showEmailConfirmed ? (
+            <>
+              <form onSubmit={handleSubmit(onSubmit)}>
+                <Stack spacing={4}>
+                  {formControls.map((control: FormField) => (
+                    <FormControl
+                      key={control.id}
+                      id={control.id}
+                      isRequired={control.required}
+                    >
+                      <FormLabel>{control.label}</FormLabel>
+                      <Input
+                        {...register(control.name, {
+                          required: control.required,
+                        })}
+                        type={control.type}
+                      />
+                    </FormControl>
+                  ))}
+                </Stack>
+                <Stack spacing={10} pt={2}>
+                  <Button
+                    type="submit"
+                    loadingText="Submitting"
+                    size="lg"
+                    bg={"blue.400"}
+                    color={"white"}
+                    _hover={{
+                      bg: "blue.500",
+                    }}
+                  >
+                    Sign up
+                  </Button>
+                </Stack>
+              </form>
+              <Stack pt={6}>
+                <Text align={"center"}>
+                  Already a user? <Link color={"blue.400"}>Login</Link>
+                </Text>
+              </Stack>
+            </>
+          ) : (
+            <div>
+              Succesfully registered, please visit your email to verifiy your
+              account.
+            </div>
+          )}
         </Box>
-        <Stack spacing={10} pt={2}>
-          <Button
-            loadingText="Submitting"
-            size="lg"
-            bg={"blue.400"}
-            color={"white"}
-            _hover={{
-              bg: "blue.500",
-            }}
-          >
-            Sign up
-          </Button>
-        </Stack>
-        <Stack pt={6}>
-          <Text align={"center"}>
-            Already a user? <Link color={"blue.400"}>Login</Link>
-          </Text>
-        </Stack>
       </Stack>
     </Flex>
   );
