@@ -88,6 +88,14 @@ export function SignupForm() {
                 />
               </FormControl>
 
+              <FormControl id="lastName" isRequired>
+                <FormLabel>Last Name</FormLabel>
+                <Input
+                  {...register("lastName", { required: true })}
+                  type="text"
+                />
+              </FormControl>
+
               <FormControl id="email" isRequired>
                 <FormLabel>Email address</FormLabel>
                 <Input

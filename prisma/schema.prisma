@@ -11,13 +11,27 @@ generator client {
 }
 
 model User {
-  id            Int      @id @default(autoincrement())
-  email         String   @unique
-  emailVerified Boolean  @default(false)
-  publicId      String   @unique
-  members       Member[]
-  createdAt     DateTime @default(now())
-  updatedAt     DateTime @updatedAt
+  id             Int       @id @default(autoincrement())
+  email          String    @unique
+  password       String
+  emailVerified  Boolean   @default(false)
+  publicId       String    @unique
+  members        Member[]
+  createdAt      DateTime  @default(now())
+  updatedAt      DateTime  @updatedAt
+  firstName      String?
+  lastName       String?
+  roles          Role[]
+  profilePicture String?
+  dateOfBirth    DateTime?
+  lastLogin      DateTime?
+  isActive       Boolean   @default(true)
+}
+
+enum Role {
+  ADMIN
+  USER
+  MODERATOR
 }
 
 model Member {

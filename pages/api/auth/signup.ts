@@ -1,11 +1,9 @@
-import type { NextApiRequest, NextApiResponse } from "next";
-import { PrismaClient } from "@prisma/client";
 import bcrypt from "bcrypt";
 import Joi from "joi";
 import jwt from "jsonwebtoken";
-import nodemailer from "nodemailer";
-
-const prisma = new PrismaClient();
+import type { NextApiRequest, NextApiResponse } from "next";
+import { prisma } from "@/lib/prisma";
+import { sendVerificationEmail } from "@/lib/email";
 
 type Data = {
   message: string;
@@ -18,28 +16,6 @@ const schema = Joi.object({
   password: Joi.string().min(8).required(),
 });
 
-async function sendVerificationEmail(email: string, token: string) {
-  const transporter = nodemailer.createTransport({
-    service: "gmail", // Use your email service
-    auth: {
-      user: process.env.EMAIL_USER,
-      pass: process.env.EMAIL_PASS,
-    },
-  });
-
-  const verificationUrl = `${process.env.NEXT_PUBLIC_APP_URL}/verify-email?token=${token}`;
-
-  const mailOptions = {
-    from: process.env.EMAIL_USER,
-    to: email,
-    subject: "Email Verification",
-    text: `Please click the following link to verify your email address: ${verificationUrl}`,
-    html: `Please click the following link to verify your email address: <a href="${verificationUrl}">${verificationUrl}</a>`,
-  };
-
-  await transporter.sendMail(mailOptions);
-}
-
 export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse<Data>
@@ -50,22 +26,22 @@ export default async function handler(
     return;
   }
 
+  const { firstName, lastName, email, password } = req.body;
+
+  // Validate the input
+  const validationResult = schema.validate({
+    firstName,
+    lastName,
+    email,
+    password,
+  });
+
+  if (validationResult.error) {
+    res.status(400).json({ message: validationResult.error.message });
+    return;
+  }
+
   try {
-    const { firstName, lastName, email, password } = req.body;
-
-    // Validate the input
-    const validationResult = schema.validate({
-      firstName,
-      lastName,
-      email,
-      password,
-    });
-
-    if (validationResult.error) {
-      res.status(400).json({ message: validationResult.error.message });
-      return;
-    }
-
     // Check if the email is already taken
     const existingUser = await prisma.user.findUnique({
       where: { email },
@@ -88,8 +64,11 @@ export default async function handler(
     // Store the user in the database
     await prisma.user.create({
       data: {
+        firstName,
+        lastName,
         email,
         publicId,
+        password: hashedPassword,
       },
     });
 
@@ -103,13 +82,10 @@ export default async function handler(
 
     res.status(200).json({
       message:
-        "User registered successfully. Please check your email to verify your account.",
+        "Account registered successfully. Please check your email to verify your account.",
     });
   } catch (error) {
     console.error("Error:", error);
     res.status(500).json({ message: "Internal Server Error" });
-  } finally {
-    // Close the Prisma connection
-    await prisma.$disconnect();
   }
 }
