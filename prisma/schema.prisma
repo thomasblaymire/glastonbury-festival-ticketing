@@ -1,37 +1,45 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
-
-datasource db {
-  provider = "postgresql"
-  url      = env("DATABASE_URL")
-}
-
 generator client {
   provider = "prisma-client-js"
 }
 
+datasource db {
+  provider          = "mysql"
+  url               = env("DATABASE_URL")
+  shadowDatabaseUrl = env("SHADOW_DATABASE_URL")
+  relationMode      = "prisma"
+}
+
 model User {
-  id             Int       @id @default(autoincrement())
-  email          String    @unique
+  id             Int        @id @default(autoincrement())
+  email          String     @unique
   password       String
-  emailVerified  Boolean   @default(false)
-  publicId       String    @unique
+  emailVerified  Boolean    @default(false)
+  publicId       String     @unique
   members        Member[]
-  createdAt      DateTime  @default(now())
-  updatedAt      DateTime  @updatedAt
+  createdAt      DateTime   @default(now())
+  updatedAt      DateTime   @updatedAt
   firstName      String?
   lastName       String?
-  roles          Role[]
+  userRoles      UserRole[]
   profilePicture String?
   dateOfBirth    DateTime?
   lastLogin      DateTime?
-  isActive       Boolean   @default(true)
+  isActive       Boolean    @default(true)
 }
 
 enum Role {
   ADMIN
   USER
   MODERATOR
+}
+
+model UserRole {
+  id     Int  @id @default(autoincrement())
+  role   Role
+  userId Int
+  user   User @relation(fields: [userId], references: [id])
+
+  @@index([userId], name: "UserRoleIndex")
 }
 
 model Member {
@@ -44,6 +52,8 @@ model Member {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
   Ticket    Ticket[]
+
+  @@index([userId], name: "MemberUserIndex")
 }
 
 model Ticket {
@@ -53,4 +63,6 @@ model Ticket {
   claimed   Boolean  @default(false)
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+
+  @@index([memberId], name: "TicketMemberIndex")
 }
