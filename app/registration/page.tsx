@@ -1,12 +1,6 @@
-"use client";
+'use client'
+import BaseForm from '../../components/forms/registration/base-form'
 
-import { Box } from "@chakra-ui/react";
-import { RegistrationForm } from "@/components/forms/multi-step";
-
-export default async function Registration() {
-  return (
-    <Box mt="4rem">
-      <RegistrationForm />
-    </Box>
-  );
+export default function Registration() {
+  return <BaseForm />
 }

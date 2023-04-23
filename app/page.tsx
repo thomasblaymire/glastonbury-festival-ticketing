@@ -1,20 +1,20 @@
-"use client";
-
-import { Box } from "@chakra-ui/react";
-import { Hero } from "@/components/hero";
+import React from 'react'
+import { Hero } from '@/components/hero'
 
 export default function Page() {
   return (
-    <Box
-      w="100%"
-      minH="100vh"
-      bgImage="url(/hero.svg)"
-      bgPosition="50%"
-      bgRepeat="no-repeat"
-      bgSize="cover"
-      backgroundColor="#141518"
+    <div
+      style={{
+        width: '100%',
+        minHeight: '100vh',
+        backgroundImage: 'url(/hero.svg)',
+        backgroundPosition: '50%',
+        backgroundRepeat: 'no-repeat',
+        backgroundSize: 'cover',
+        backgroundColor: '#141518',
+      }}
     >
       <Hero />
-    </Box>
-  );
+    </div>
+  )
 }

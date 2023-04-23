@@ -1,7 +1,7 @@
-"use client";
+'use client'
 
-import { SignupForm } from "@/components/forms/signup";
+import { SignupForm } from '@/components/forms/signup'
 
 export default async function SignupPage() {
-  return <SignupForm />;
+  return <SignupForm />
 }
