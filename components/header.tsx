@@ -1,41 +1,26 @@
-import { useEffect } from "react";
-import { Box, Flex } from "@chakra-ui/layout";
-import { WrapItem, useDisclosure, useMediaQuery } from "@chakra-ui/react";
-import { Logo } from "./logo";
+import { useDisclosure, useMediaQuery } from '@chakra-ui/react'
+import { Logo } from './logo'
 
 interface HeaderProps {
-  isBasic?: boolean;
+  isBasic?: boolean
 }
 
 export function Header({ isBasic }: HeaderProps) {
-  const { isOpen, onOpen, onClose } = useDisclosure();
-  const [isTablet] = useMediaQuery("(min-width: 780px)");
-  const [isMobile] = useMediaQuery("(max-width: 768px)");
+  const { isOpen, onOpen, onClose } = useDisclosure()
+  const [isTablet] = useMediaQuery('(min-width: 780px)')
+  const [isMobile] = useMediaQuery('(max-width: 768px)')
 
   return (
-    <header>
-      <Box
-        height="5rem"
-        position="sticky"
-        padding={isMobile ? 4 : undefined}
-        borderBottom="solid 1px #353945"
+    <header className="sticky top-0">
+      <div
+        className={`h-20 ${isMobile ? 'px-4' : ''} border-b border-gray-800`}
       >
-        <Flex
-          justifyContent="space-between"
-          width={{
-            md: "720px",
-            lg: "960px",
-            xl: "1200px",
-          }}
-          margin="0 auto"
-          height="100%"
-          alignItems="center"
-        >
-          <Box>
+        <div className="container mx-auto h-full flex items-center justify-between">
+          <div>
             <Logo />
-          </Box>
-        </Flex>
-      </Box>
+          </div>
+        </div>
+      </div>
     </header>
-  );
+  )
 }
