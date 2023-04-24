@@ -1,6 +1,7 @@
 import { useState, ChangeEvent } from 'react'
 import { useForm } from 'react-hook-form'
 import { AiFillDelete } from 'react-icons/ai'
+import { Button } from '@/components/button'
 
 type Friend = {
   firstname: string
@@ -28,10 +29,9 @@ export const TicketsForm = ({
   handleNext,
   handlePrevious,
 }: TicketsFormProps) => {
-  const { register, handleSubmit, control, setValue, getValues } =
-    useForm<TicketsFormData>({
-      defaultValues: formData,
-    })
+  const { register, handleSubmit, control, setValue, getValues } = useForm({
+    defaultValues: formData,
+  })
   const [friends, setFriends] = useState<Friend[]>([])
 
   const addFriend = async () => {
@@ -100,7 +100,9 @@ export const TicketsForm = ({
           </div>
         ))}
       </div>
-      <button onClick={handlePrevious}>Previous</button>
+      <Button onClick={handlePrevious} variant="primary">
+        Previous
+      </Button>
     </div>
   )
 }

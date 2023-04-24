@@ -1,6 +1,7 @@
 import { useForm } from 'react-hook-form'
 import { accountFields } from './fields'
-import { FileUpload } from '../file-upload'
+import { FileUpload } from '@/components/forms/file-upload'
+import { Button } from '@/components/button'
 
 interface AccountForm {
   formData: AccountFormData
@@ -23,11 +24,13 @@ export function AccountForm({
     value: formData[field.id],
   }))
 
+  const submitting = false
+
   return (
     <>
       <h1>Account Details</h1>
       <form>
-        <div className="space-y-4">
+        <div className="space-y-4 mb-5">
           {fields.map((field) => (
             <div key={field.id} className="space-y-2">
               <label htmlFor={field.id} className="font-medium text-gray-700">
@@ -42,6 +45,7 @@ export function AccountForm({
                 <input
                   id={field.id}
                   type={field.type}
+                  placeholder={field.placeholder}
                   value={field.value as string}
                   onChange={(e) => handleChange('account', field.id, e)}
                   className="mt-1 block w-full p-2 border border-gray-300 rounded-md"
@@ -52,12 +56,9 @@ export function AccountForm({
         </div>
       </form>
 
-      <button
-        onClick={handleNext}
-        className="mt-4 px-4 py-2 border border-teal-500 text-teal-500 rounded-md hover:bg-teal-500 hover:text-white focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-teal-500"
-      >
+      <Button onClick={handleNext} variant="primary" isLoading={submitting}>
         Next
-      </button>
+      </Button>
     </>
   )
 }

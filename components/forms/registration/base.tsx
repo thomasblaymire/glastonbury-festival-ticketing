@@ -1,8 +1,8 @@
 import { useState, useEffect } from 'react'
 import { ProgressComponent } from '../../progress'
-import { PersonalDetailsForm } from './details-form'
+import { PersonalDetailsForm } from './details'
 import { TicketsForm } from './tickets-form'
-import { AccountForm } from './account-form'
+import { AccountForm } from './account'
 import { useFormSteps } from '@/hooks/useFormSteps'
 
 export default function BaseForm() {
@@ -16,7 +16,6 @@ export default function BaseForm() {
         email: '',
       },
       personalDetails: {
-        country: '',
         streetAddress: '',
         city: '',
         region: '',
@@ -43,7 +42,7 @@ export default function BaseForm() {
     />,
     <PersonalDetailsForm
       key={2}
-      formData={formData.personalDetails}
+      formData={formData}
       handleChange={handleChange}
       handleNext={handleNext}
       handlePrevious={handlePrevious}
