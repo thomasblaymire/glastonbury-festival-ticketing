@@ -15,7 +15,7 @@ export function AccountForm({
   handleChange,
   handleNext,
 }: AccountForm) {
-  const { control } = useForm<AccountFormData>({
+  const { control } = useForm({
     defaultValues: formData,
   })
 

@@ -5,9 +5,9 @@ export function useFormSteps(initialFormData: RegistrationFormData) {
   const [formData, setFormData] =
     useState<RegistrationFormData>(initialFormData)
 
-  const handleChange = (
-    fieldType: keyof RegistrationFormData,
-    field: keyof RegistrationFormData[typeof fieldType],
+  const handleChange = <FieldType extends keyof RegistrationFormData>(
+    fieldType: FieldType,
+    field: keyof RegistrationFormData[FieldType],
     event: ChangeEvent<HTMLInputElement>
   ) => {
     setFormData({
