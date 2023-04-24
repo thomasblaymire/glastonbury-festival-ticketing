@@ -15,9 +15,21 @@ export function AccountForm({
   handleChange,
   handleNext,
 }: AccountForm) {
-  const { control } = useForm({
+  const {
+    control,
+    register,
+    trigger,
+    formState: { errors },
+  } = useForm({
     defaultValues: formData,
   })
+
+  const handleValidation = async () => {
+    const isValid = await trigger()
+    if (isValid) {
+      handleNext()
+    }
+  }
 
   const fields = accountFields.map((field) => ({
     ...field,
@@ -51,12 +63,21 @@ export function AccountForm({
                   className="mt-1 block w-full p-2 border border-gray-300 rounded-md"
                 />
               )}
+              {errors[field.id] && (
+                <p className="text-red-500 text-sm mt-1">
+                  {errors[field.id]?.message}
+                </p>
+              )}
             </div>
           ))}
         </div>
       </form>
 
-      <Button onClick={handleNext} variant="primary" isLoading={submitting}>
+      <Button
+        onClick={handleValidation}
+        variant="primary"
+        isLoading={submitting}
+      >
         Next
       </Button>
     </>

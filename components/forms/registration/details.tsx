@@ -1,25 +1,25 @@
 import React from 'react'
-import { personalDetailsFields } from './fields'
+import { detailsFields } from './fields'
 import { Button } from '@/components/button'
 
-interface PersonalDetails {
+interface DetailsProps {
   formData: RegistrationFormData
   handleChange: (
-    section: 'personalDetails',
-    fieldId: keyof RegistrationFormData['personalDetails'],
+    section: 'details',
+    fieldId: keyof RegistrationFormData['details'],
     event: React.ChangeEvent<HTMLInputElement>
   ) => void
   handleNext: () => void
   handlePrevious: () => void
 }
 
-export const PersonalDetailsForm = ({
+export const DetailsForm = ({
   formData,
   handleNext,
   handleChange,
   handlePrevious,
-}: PersonalDetails) => {
-  const fields = personalDetailsFields.map((field) => ({
+}: DetailsProps) => {
+  const fields = detailsFields.map((field) => ({
     ...field,
     value: formData[field.section][field.id],
   }))

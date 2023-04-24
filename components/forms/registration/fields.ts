@@ -1,34 +1,44 @@
-export const personalDetailsFields: Field<
-  'personalDetails',
-  keyof RegistrationFormData['personalDetails']
+export const detailsFields: Field<
+  'details',
+  keyof RegistrationFormData['details']
 >[] = [
   {
     id: 'streetAddress',
     label: 'Street Address',
     type: 'text',
-    section: 'personalDetails',
+    section: 'details',
     placeholder: 'Street Address',
+    validation: { required: 'Street Address is required' },
   },
   {
     id: 'city',
     label: 'City',
     type: 'text',
-    section: 'personalDetails',
+    section: 'details',
     placeholder: 'City',
+    validation: { required: 'City is required' },
   },
   {
     id: 'region',
     label: 'Region',
     type: 'text',
-    section: 'personalDetails',
+    section: 'details',
     placeholder: 'Region',
+    validation: { required: 'Region is required' },
   },
   {
     id: 'postcode',
     label: 'Postcode',
     type: 'text',
-    section: 'personalDetails',
+    section: 'details',
     placeholder: 'Postcode',
+    validation: {
+      required: 'Postcode is required',
+      pattern: {
+        value: /^[0-9]{5}$/,
+        message: 'Postcode must be 5 digits',
+      },
+    },
   },
 ]
 
