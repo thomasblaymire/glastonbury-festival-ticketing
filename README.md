@@ -4,12 +4,20 @@
 </h1>
 
 ## Problem
-Every year Glastonbury Festival sells out in a matter of minutes. This is a problem for many people who are unable to get tickets. The current system requires you to register online and then when tickets go on sale you join a massive queue to buy them. Often you get through to a multi-stage form and then due to the sheer amount of traffic the website crashes and you lose your place in the queue causing frustration for you as a customer and negative PR for the festival organizers. It's also not fair for people who get tickets year after year just because of sheer luck.
+Every year Glastonbury Festival sells out in a matter of minutes 😭 
+
+The current system requires that you register online and then when tickets go on sale you join a massive queue to buy them. 
+
+Often you get through to a multi-stage form and then due to the sheer amount of traffic the website crashes and you lose your place in the queue causing frustration for you as a customer and negative PR for the festival organizers. It's also a bit unfair for people who get tickets year after year just because of sheer luck.
 
 ## Solution 
-A new fair ticket system will allow people to pre-register and add up to 5 members to their account for family/friends who they want to take with them. The tickets will then be released from the pool on release day. Customers who are selected will receive a private email invite to claim their tickets within 48 hours before they are released back into the pool. 
+- A new fair ticket system will allow individuals to pre-register and add up to 5 members to their account for family/friends who they want to take with them.
 
-I will also be implementing additional features such as VIP/Artist tickets along with year-on-year tracking to keep track of who has attended before. 
+- The tickets will then be released from the pool on release day. Customers who are selected will receive a private email invite to claim their tickets within 48 hours before they are released back into the pool. (Yay no more queuing)
+
+- We can easily track what users were allocated tickets last year and update their likelihood of being selected again.
+
+Additional features such as VIP/Artist tickets along with QR code and barcode scanning will also be implemented. 
   
 ## Features (WIP)
 - Register, Login, Logout
@@ -37,16 +45,12 @@ TBC
 - React Query
 - Hooks
 - React Testing Library
-- Chakra UI
+- TailwindCSS
 - React Icons
-- PostgreSQL (Raleway)
-- Nodemailer
-
-## Infrastructure / Production
-- Vercel (NextJS)
-- Render (NodeJS API)
-- Raleway (PostgreSQL)
-
+- Stripe
+- SQL (PlanetScale)
+- AWS SES (Email Service)
+- CI Vercel (NextJS)
 
 ## How To Use
 
