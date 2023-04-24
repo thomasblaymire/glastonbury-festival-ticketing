@@ -66,6 +66,7 @@ model Ticket {
   confirmationExpires DateTime?
   createdAt           DateTime  @default(now())
   updatedAt           DateTime  @updatedAt
+  releaseDate         DateTime?
 
   @@index([memberId], name: "TicketMemberIndex")
 }

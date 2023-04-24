@@ -7,6 +7,7 @@ type Field<
   type: string
   placeholder: string
   section: S
+  validation?: RegisterOptions
 }
 
 interface RegistrationFormData {
@@ -16,7 +17,7 @@ interface RegistrationFormData {
     lastName: string
     email: string
   }
-  personalDetails: {
+  details: {
     streetAddress: string
     city: string
     region: string
