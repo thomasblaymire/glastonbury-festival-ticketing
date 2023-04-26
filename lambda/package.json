@@ -1,0 +1,12 @@
+{
+  "name": "release",
+  "version": "1.0.0",
+  "private": true,
+  "dependencies": {
+    "@prisma/client": "^4.12.0",
+    "@types/aws-lambda": "^8.10.114",
+    "aws-lambda": "^1.0.7",
+    "aws-sdk": "^2.1046.0",
+    "nodemailer": "^6.7.2"
+  }
+}
