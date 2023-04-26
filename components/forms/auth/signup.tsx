@@ -1,7 +1,7 @@
 import { useForm } from 'react-hook-form'
 import { useState } from 'react'
 import { useSignup } from '@/hooks/useSignup'
-import { getSignupFormFields } from '../forms-old/data'
+import { getSignupFormFields } from './fields'
 
 export function SignupForm() {
   const [showPassword, setShowPassword] = useState(false)
@@ -34,7 +34,7 @@ export function SignupForm() {
           {!showEmailConfirmed ? (
             <>
               <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
-                {formControls.map((control: FormField) => (
+                {formControls.map((control) => (
                   <div key={control.id} className="space-y-1">
                     <label
                       htmlFor={control.id}
