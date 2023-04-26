@@ -1,5 +1,10 @@
 import { prisma } from '@/lib/prisma'
 import type { NextApiRequest, NextApiResponse } from 'next'
+import { sendTicketConfirmationEmail } from '@/lib/email/ticket-confirmation'
+
+async function getAuthenticatedUser(req: NextApiRequest): Promise<any | null> {
+  // TODO: base auth handling TODO
+}
 
 export default async function handler(
   req: NextApiRequest,
@@ -7,52 +12,59 @@ export default async function handler(
 ) {
   if (req.method === 'POST') {
     try {
-      const { email, uniqueCode } = req.body
+      const { uniqueCode } = req.body
+
+      // Get the authenticated user
+      const authenticatedUser = await getAuthenticatedUser(req)
+      if (!authenticatedUser) {
+        return res.status(401).json({ message: 'Unauthorized' })
+      }
 
       // Validate the unique code and check if the user is eligible to claim tickets
       const ticket = await prisma.ticket.findUnique({
         where: { confirmationCode: uniqueCode },
-        include: { member: { include: { user: true } } },
       })
 
       if (
         !ticket ||
         ticket.claimed ||
-        ticket.confirmationExpires < new Date()
+        (ticket.confirmationExpires && ticket.confirmationExpires < new Date())
       ) {
         return res.status(400).json({ message: 'Invalid or expired code.' })
       }
 
-      // Create or update user
-      const user = await prisma.user.upsert({
-        where: { email },
-        update: { emailVerified: true },
-        create: {
-          email,
-          emailVerified: true,
-          // Add other necessary fields for user creation
-        },
+      // Get the list of members for the authenticated user
+      const members = await prisma.member.findMany({
+        where: { userId: authenticatedUser.id },
       })
 
-      // Update ticket status and member
-      await prisma.ticket.update({
-        where: { id: ticket.id },
-        data: {
-          claimed: true,
-          status: 'reserved',
-          member: {
-            connectOrCreate: {
-              create: { user: { connect: { id: user.id } } },
-              where: { memberId: ticket.memberId },
-            },
+      // Claim tickets for all members
+      for (const member of members) {
+        await prisma.ticket.update({
+          where: { memberId: member.memberId },
+          data: {
+            claimed: true,
+            status: 'reserved',
           },
-        },
-      })
+        })
+      }
 
-      // Send email confirmation
-      await sendConfirmationEmail(user.email, ticket.id)
+      // Send email confirmations
+      for (const member of members) {
+        const memberUser = await prisma.user.findUnique({
+          where: { id: member.userId },
+        })
+        if (memberUser) {
+          await sendTicketConfirmationEmail(
+            memberUser.email,
+            memberUser.firstName
+          )
+        }
+      }
 
-      res.status(200).json({ message: 'Successfully claimed tickets.' })
+      res
+        .status(200)
+        .json({ message: 'Successfully claimed tickets for all members.' })
     } catch (error) {
       res.status(500).json({ message: 'Internal server error.' })
     }
