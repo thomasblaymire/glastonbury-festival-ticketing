@@ -4,17 +4,15 @@ import { Hero } from '@/components/hero'
 export default function Page() {
   return (
     <div
-      style={{
-        width: '100%',
-        minHeight: '100vh',
-        backgroundImage: 'url(/hero.svg)',
-        backgroundPosition: '50%',
-        backgroundRepeat: 'no-repeat',
-        backgroundSize: 'cover',
-        backgroundColor: '#141518',
-      }}
+      className="w-full min-h-screen bg-center bg-no-repeat bg-cover bg-[#141518]"
+      style={{ backgroundImage: 'url(/home.jpg)' }}
     >
-      <Hero />
+      <div className="flex items-center justify-center min-h-screen">
+        <Hero
+          title="Glastonbury Festival Registration 2024"
+          description="Register now to secure your tickets."
+        />
+      </div>
     </div>
   )
 }
