@@ -1,0 +1,32 @@
+service: glastonbury-ticket-release
+
+provider:
+  name: aws
+  runtime: nodejs14.x
+  stage: ${opt:stage, 'dev'}
+  region: us-east-1
+  memorySize: 128
+  timeout: 10
+
+plugins:
+  - serverless-webpack
+  - serverless-dotenv-plugin
+
+custom:
+  webpack:
+    webpackConfig: 'webpack.config.ts'
+    includeModules: true
+
+functions:
+  releaseTickets:
+    handler: lambda/release/index.handler
+    events:
+      - http:
+          path: release
+          method: post
+          cors: true
+  processQueue:
+    handler: lambda/queue/index.handler
+    events:
+      - sqs:
+          arn: ${env:AWS_SQS_QUEUE_ARN}
