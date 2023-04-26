@@ -1,5 +1,5 @@
-import { prisma } from '../lib/prisma'
-import { sqs } from '../lib/email/transporter'
+import { prisma } from '@/lib/prisma'
+import { sqs } from '@/lib/email/transporter'
 import { APIGatewayProxyHandler } from 'aws-lambda'
 import { SendMessageRequest } from 'aws-sdk/clients/sqs'
 

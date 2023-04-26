@@ -1,5 +1,5 @@
 import { SQSEvent, SQSHandler } from 'aws-lambda'
-import { transporter } from '../lib/email/transporter'
+import { transporter } from '@/lib/email/transporter'
 import type { Options as MailOptions } from 'nodemailer/lib/mailer'
 
 export const handler: SQSHandler = async (event: SQSEvent) => {
