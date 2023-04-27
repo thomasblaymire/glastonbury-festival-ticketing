@@ -49,8 +49,16 @@ TBC
 - React Icons
 - Stripe
 - SQL (PlanetScale)
-- AWS SES (Email Service)
 - CI Vercel (NextJS)
+
+## Email Release
+
+- Serverless Framework
+- AWS SES (Email Service)
+- AWS SQS (Email Queue Service)
+- AWS Lambda (Release & Ticket Batcher)
+- AWS CloudFormation
+
 
 ## How To Use
 
