@@ -26,6 +26,10 @@ const config: Configuration = {
     libraryTarget: 'commonjs2',
     path: path.join(__dirname, '.webpack'),
     filename: '[name].js',
+    clean: true,
+  },
+  optimization: {
+    minimize: false,
   },
 }
 

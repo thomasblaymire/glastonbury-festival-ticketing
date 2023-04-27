@@ -18,8 +18,8 @@ model User {
   members        Member[]
   createdAt      DateTime   @default(now())
   updatedAt      DateTime   @updatedAt
-  firstName      String?
-  lastName       String?
+  firstName      String
+  lastName       String
   userRoles      UserRole[]
   profilePicture String?
   dateOfBirth    DateTime?
@@ -58,11 +58,11 @@ model Member {
 
 model Ticket {
   id                  Int       @id @default(autoincrement())
-  memberId            String?
+  memberId            String?   @unique
   member              Member?   @relation(fields: [memberId], references: [memberId])
   claimed             Boolean   @default(false)
   status              String    @default("available")
-  confirmationCode    String?
+  confirmationCode    String?   @unique
   confirmationExpires DateTime?
   createdAt           DateTime  @default(now())
   updatedAt           DateTime  @updatedAt

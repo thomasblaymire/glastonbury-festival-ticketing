@@ -1,4 +1,4 @@
-import { useDisclosure, useMediaQuery } from '@chakra-ui/react'
+import { useState, useEffect } from 'react'
 import { Logo } from './logo'
 
 interface HeaderProps {
@@ -6,9 +6,22 @@ interface HeaderProps {
 }
 
 export function Header({ isBasic }: HeaderProps) {
-  const { isOpen, onOpen, onClose } = useDisclosure()
-  const [isTablet] = useMediaQuery('(min-width: 780px)')
-  const [isMobile] = useMediaQuery('(max-width: 768px)')
+  const [isOpen, setIsOpen] = useState(false)
+  const [isTablet, setIsTablet] = useState(false)
+  const [isMobile, setIsMobile] = useState(false)
+
+  // TODO: Refactor this into a useMedia hook etc
+  useEffect(() => {
+    const updateWindowSize = () => {
+      setIsTablet(window.innerWidth >= 780)
+      setIsMobile(window.innerWidth <= 768)
+    }
+
+    window.addEventListener('resize', updateWindowSize)
+    updateWindowSize()
+
+    return () => window.removeEventListener('resize', updateWindowSize)
+  }, [])
 
   return (
     <header className="sticky top-0">

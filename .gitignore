@@ -39,3 +39,6 @@ todo.txt
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# serverless
+.serverless

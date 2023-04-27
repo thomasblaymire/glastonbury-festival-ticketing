@@ -5,7 +5,7 @@ import { TicketsForm } from './tickets-form'
 import { AccountForm } from './account'
 import { useFormSteps } from '@/hooks/useFormSteps'
 
-export default function BaseForm() {
+export function BaseForm() {
   const [mounted, setMounted] = useState(false)
   const { step, formData, handleChange, handleNext, handlePrevious } =
     useFormSteps({
@@ -57,13 +57,15 @@ export default function BaseForm() {
   ]
 
   return (
-    mounted && (
-      <div className="h-screen w-full flex flex-col md:flex-row">
-        <div className="md:w-2/5 bg-gray-200 h-full hidden md:block md:px-8 md:py-8">
-          <ProgressComponent currentStep={step} />
+    <>
+      {mounted && (
+        <div className="h-screen w-full flex flex-col md:flex-row">
+          <div className="md:w-2/5 bg-gray-200 h-full hidden md:block md:px-8 md:py-8">
+            <ProgressComponent currentStep={step} />
+          </div>
+          <div className="flex-grow p-8">{stepComponents[step - 1]}</div>
         </div>
-        <div className="flex-grow p-8">{stepComponents[step - 1]}</div>
-      </div>
-    )
+      )}
+    </>
   )
 }

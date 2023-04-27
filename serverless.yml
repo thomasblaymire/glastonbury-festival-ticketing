@@ -1,10 +1,17 @@
 service: glastonbury-ticket-release
 
+package:
+  exclude:
+    - ./*
+  include:
+    - lambda/queue/index.ts
+    - lambda/queue/release.ts
+
 provider:
   name: aws
   runtime: nodejs14.x
   stage: ${opt:stage, 'dev'}
-  region: us-east-1
+  region: eu-north-1
   memorySize: 128
   timeout: 10
 
@@ -16,6 +23,9 @@ custom:
   webpack:
     webpackConfig: 'webpack.config.ts'
     includeModules: true
+    packager: 'npm'
+  serverlessWebpack:
+    useTsconfigPaths: true
 
 functions:
   releaseTickets:
